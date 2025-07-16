@@ -49,7 +49,14 @@ docker-compose up -d
 
 8. Para ejecutar en modo desarrollo, ejecutar `npm run start`
 
-## Stack usado
+## Produccion Build
+
+1. Crear el archivo `.env.prod` con los valores de las variables de entorno.
+2. Llenar los valores de las variables de entorno en el archivo `.env.prod`.
+3. Construir la imagen de producción con ```docker-compose -f docker-compose.prod.yaml build```
+
+
+
 
 ### MongoDB
 ### NestJS
