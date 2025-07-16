@@ -6,14 +6,19 @@ import { Pokemon } from './entities/pokemon.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { PokemonModule } from './pokemon.module';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PokemonService {
 
+  private defaultLimit: number;
   constructor(
     @InjectModel(Pokemon.name)
-    private readonly pokemonModel: Model<Pokemon>
-  ) { }
+    private readonly pokemonModel: Model<Pokemon>,
+    private readonly configService: ConfigService
+  ) {
+    this.defaultLimit = this.configService.get<number>('defaultLimit') ?? 10;
+  }
 
   async create(createPokemonDto: CreatePokemonDto) {
     try {
@@ -28,10 +33,10 @@ export class PokemonService {
 
   async findAll(queryParameters: PaginationDto) {
 
-    const { limit = 50, offset = 0 } = queryParameters;
-
+    const { limit, offset = 0 } = queryParameters;
+    let limitQuery = limit ?? Number(process.env.DEFAULT_LIMIT);
     return this.pokemonModel.find().
-      limit(limit).
+      limit(limitQuery).
       skip(offset);
   }
 
@@ -74,10 +79,7 @@ export class PokemonService {
   }
 
   async remove(id: string) {
-    //const pokemon = await this.findOne(id);
-    //await pokemon?.deleteOne();
-    //return { id };
-    //await pokemon.();
+
     const { deletedCount } = await this.pokemonModel.deleteOne({ _id: id });
     if (deletedCount === 0) throw new NotFoundException(`Pokemon ${id} not found`);
     return { message: `Pokemon ${id} deleted` };
