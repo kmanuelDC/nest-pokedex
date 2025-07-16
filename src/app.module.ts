@@ -25,7 +25,9 @@ import { JoiValidationSchema } from './common/config/joi.validation';
 
     PokemonModule,
 
-    MongooseModule.forRoot(process.env.MONGODB_URI ?? 'mongodb://localhost:27017/pokedex'),
+    MongooseModule.forRoot(process.env.MONGODB_URI ?? 'mongodb://localhost:27017/pokedex',
+      { dbName: 'pokemonDB' }
+    ),
 
     CommonModule,
 

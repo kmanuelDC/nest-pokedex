@@ -41,7 +41,13 @@ docker-compose up -d
 
 ## Ejecutar en producción
 
+## Variables de entorno
 
+6. Copiar el archivo `.env.template` a `.env` y modificar los valores de las variables de entorno.
+
+7. Ejecutar `npm run start:prod`
+
+8. Para ejecutar en modo desarrollo, ejecutar `npm run start`
 
 ## Stack usado
 
